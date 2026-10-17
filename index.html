@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b6e5f">
+<title>ChatApp — Mensajería instantánea</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ AUTH ============ -->
+  <section id="view-auth" class="view">
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand-logo">💬</div>
+        <h1>ChatApp</h1>
+        <p>Mensajería instantánea, simple y privada</p>
+      </div>
+      <div class="tabs">
+        <button id="tab-login" class="tab active" type="button">Entrar</button>
+        <button id="tab-register" class="tab" type="button">Crear cuenta</button>
+      </div>
+
+      <form id="form-login" class="auth-form" autocomplete="on">
+        <input id="login-email" type="email" placeholder="Correo electrónico" required autocomplete="email">
+        <input id="login-pass" type="password" placeholder="Contraseña" required autocomplete="current-password">
+        <div id="login-error" class="form-error" hidden></div>
+        <button class="btn-primary" type="submit">Iniciar sesión</button>
+      </form>
+
+      <form id="form-register" class="auth-form" hidden autocomplete="on">
+        <input id="reg-name" type="text" placeholder="Tu nombre" required minlength="2" maxlength="40" autocomplete="name">
+        <input id="reg-email" type="email" placeholder="Correo electrónico" required autocomplete="email">
+        <input id="reg-pass" type="password" placeholder="Contraseña (mínimo 6 caracteres)" required minlength="6" autocomplete="new-password">
+        <div id="reg-error" class="form-error" hidden></div>
+        <button class="btn-primary" type="submit">Crear cuenta</button>
+        <p class="hint">Tu cuenta queda guardada en el servidor y podrás entrar desde cualquier dispositivo.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ MAIN ============ -->
+  <section id="view-main" class="view" hidden>
+    <div id="panel-list" class="panel-list">
+      <header class="list-header">
+        <div class="me">
+          <div id="my-avatar" class="avatar"></div>
+          <div class="me-info">
+            <strong id="my-name"></strong>
+            <span>ChatApp</span>
+          </div>
+        </div>
+        <button id="btn-logout" class="icon-btn" title="Cerrar sesión" aria-label="Cerrar sesión">⎋</button>
+      </header>
+      <div class="search-row">
+        <input id="search-chats" type="search" placeholder="🔍 Buscar en mis chats…" autocomplete="off">
+      </div>
+      <div id="chat-list" class="chat-list"></div>
+      <div id="chat-list-empty" class="empty" hidden>
+        <div class="empty-icon">💬</div>
+        <p><strong>Aún no tienes chats</strong></p>
+        <p>Toca el botón <b>+</b> para buscar personas por su correo o nombre y empezar a conversar.</p>
+      </div>
+      <button id="fab-new" class="fab" title="Nuevo chat" aria-label="Nuevo chat">+</button>
+    </div>
+
+    <div id="panel-chat" class="panel-chat">
+      <div id="chat-placeholder" class="chat-placeholder">
+        <div class="empty-icon">💬</div>
+        <p><strong>ChatApp</strong></p>
+        <p>Selecciona un chat para empezar a escribir.<br>Los mensajes se guardan y solo tú y tu contacto pueden verlos.</p>
+      </div>
+
+      <div id="chat-active" class="chat-active" hidden>
+        <header class="chat-header">
+          <button id="btn-back" class="icon-btn back-btn" aria-label="Volver">←</button>
+          <div id="peer-avatar" class="avatar"></div>
+          <div class="peer-info">
+            <strong id="peer-name"></strong>
+            <span id="peer-status" class="status"></span>
+          </div>
+        </header>
+        <div id="messages" class="messages"></div>
+        <form id="composer" class="composer">
+          <textarea id="msg-input" rows="1" placeholder="Escribe un mensaje…" autocomplete="off"></textarea>
+          <button id="btn-send" class="send-btn" type="submit" aria-label="Enviar">➤</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEW CHAT MODAL ============ -->
+  <div id="modal-new" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong>Nuevo chat</strong>
+        <button id="modal-close" class="icon-btn" aria-label="Cerrar">✕</button>
+      </div>
+      <input id="user-search" type="search" placeholder="🔍 Buscar por correo o nombre…" autocomplete="off">
+      <div id="user-results" class="user-results"></div>
+      <p id="user-search-hint" class="hint">Escribe al menos 2 letras para buscar personas registradas en ChatApp.</p>
+    </div>
+  </div>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
