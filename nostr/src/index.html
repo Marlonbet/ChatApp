@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ChatApp — Mensajería descentralizada</title>
+<!--__STYLES__-->
+</head>
+<body>
+<div id="app">
+
+  <!-- Identidad -->
+  <div id="view-identity" class="view" hidden>
+    <div class="auth-card">
+      <div class="brand">
+        <div class="brand-logo">💬</div>
+        <h1>ChatApp</h1>
+        <p class="tagline">Mensajería descentralizada.<br>Sin cuentas, sin empresas, sin bloqueos.</p>
+      </div>
+      <div id="identity-new" class="auth-form">
+        <input id="id-name" type="text" placeholder="Tu nombre" autocomplete="off" maxlength="40">
+        <button id="btn-create-id" class="btn-primary">Crear mi identidad</button>
+        <p class="hint">Se genera una clave criptográfica en tu teléfono.<br>Solo tú la tienes. Guárdala bien.</p>
+        <button id="btn-show-import" class="link">Ya tengo una clave → importar</button>
+      </div>
+      <div id="identity-import" class="auth-form" hidden>
+        <input id="id-nsec" type="text" placeholder="Pega tu clave nsec1…" autocomplete="off">
+        <button id="btn-import-id" class="btn-primary">Importar identidad</button>
+        <button id="btn-back-new" class="link">← Volver</button>
+      </div>
+      <p id="id-error" class="form-error" hidden></p>
+    </div>
+  </div>
+
+  <!-- Principal -->
+  <div id="view-main" class="view" hidden>
+    <aside id="panel-list" class="panel-list">
+      <header class="list-header">
+        <div class="me">
+          <div class="avatar" id="my-avatar">?</div>
+          <div class="me-info"><strong id="my-name">…</strong><span id="relay-status" class="status">conectando…</span></div>
+        </div>
+        <button id="btn-settings" class="icon-btn" title="Ajustes">⚙️</button>
+      </header>
+      <div class="search-row"><input id="search-chats" type="text" placeholder="🔍 Buscar chats"></div>
+      <div id="chat-list" class="chat-list"></div>
+      <div id="chat-list-empty" class="empty" hidden>
+        <div class="empty-icon">💬</div>
+        <p>Toca <strong>+</strong> y pega el ID de un contacto para empezar a chatear.</p>
+      </div>
+      <button id="fab-new" class="fab" title="Nuevo chat">＋</button>
+    </aside>
+
+    <main id="panel-chat" class="panel-chat">
+      <div id="chat-placeholder" class="chat-placeholder">
+        <div class="empty-icon">💬</div>
+        <h2>ChatApp descentralizado</h2>
+        <p>Tus mensajes viajan cifrados por la red Nostr.<br>Ninguna empresa los controla.</p>
+      </div>
+      <div id="chat-active" class="chat-active" hidden>
+        <header class="chat-header">
+          <button id="btn-back" class="icon-btn back-btn">‹</button>
+          <div class="avatar" id="peer-avatar">?</div>
+          <div class="peer-info"><strong id="peer-name">…</strong><span id="peer-status" class="status"></span></div>
+        </header>
+        <div id="messages" class="messages"></div>
+        <form id="composer" class="composer">
+          <textarea id="msg-input" rows="1" placeholder="Escribe un mensaje"></textarea>
+          <button type="submit" class="send-btn" title="Enviar">➤</button>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <!-- Nuevo chat -->
+  <div id="modal-new" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head"><strong>Nuevo chat</strong><button id="modal-close" class="icon-btn">✕</button></div>
+      <p class="hint">Este es tu ID. Compártelo para que te agreguen:</p>
+      <div class="npub-row"><code id="my-npub">…</code><button id="btn-copy-npub" class="mini">Copiar</button></div>
+      <p class="hint">Pega el ID de tu contacto:</p>
+      <input id="peer-npub" type="text" placeholder="npub1…" autocomplete="off">
+      <p id="newchat-error" class="form-error" hidden></p>
+      <div class="row-end">
+        <button id="btn-open-chat" class="btn-primary">Abrir chat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ajustes -->
+  <div id="modal-settings" class="modal" hidden>
+    <div class="modal-card wide">
+      <div class="modal-head"><strong>Ajustes</strong><button id="settings-close" class="icon-btn">✕</button></div>
+      <h4>Relays <span class="hint-inline">(servidores de la red)</span></h4>
+      <div id="relay-list"></div>
+      <div class="row"><input id="relay-add" placeholder="wss://…" autocomplete="off"><button id="btn-relay-add" class="mini">Añadir</button></div>
+      <p class="hint">Si un relay no conecta desde tu país, elimínalo con ✕.</p>
+      <h4>Mi identidad</h4>
+      <div class="npub-row"><code id="set-npub">…</code><button id="btn-copy-npub2" class="mini">Copiar</button></div>
+      <button id="btn-show-nsec" class="link">Ver mi clave privada</button>
+      <div id="nsec-box" hidden>
+        <div class="npub-row"><code id="my-nsec">…</code><button id="btn-copy-nsec" class="mini">Copiar</button></div>
+        <p class="warn">⚠️ Quien tenga esta clave controla tu identidad.<br>Guárdala en un lugar seguro, fuera del teléfono.</p>
+      </div>
+      <div class="row-end">
+        <button id="btn-logout" class="danger">Borrar identidad</button>
+      </div>
+      <p class="hint">Borrar la identidad elimina la clave de este teléfono.<br>Hazlo solo si guardaste tu clave privada.</p>
+    </div>
+  </div>
+
+</div>
+<!--__BUNDLE__-->
+</body>
+</html>

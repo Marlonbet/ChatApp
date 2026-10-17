@@ -1,0 +1,21 @@
+{
+  "description": "ChatApp descentralizado sobre Nostr: $0, sin registro, sin empresas",
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.3",
+    "ws": "^8.22.0"
+  },
+  "license": "MIT",
+  "name": "chatapp-nostr",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node test/test-client.mjs && node test/test-ui.mjs",
+    "test:client": "node test/test-client.mjs",
+    "test:ui": "node build.mjs && node test/test-ui.mjs"
+  },
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "nostr-tools": "^2.25.2"
+  }
+}
