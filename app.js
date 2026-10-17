@@ -135,7 +135,7 @@
   });
 
   $('btn-logout').addEventListener('click', function () {
-    if (confirm('¿Cerrar sesión en ChatApp?')) auth.signOut();
+    auth.signOut().catch(function () {});
   });
 
   /* ---------- session ---------- */
